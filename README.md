@@ -1,0 +1,2 @@
+---FitPulse is a web application where the users can track their daily workouts, search for specific excersizes in the excercize database, and set physical workouts.---
+--- Entities: users, workouts, exercises, workout_logs, goals ---

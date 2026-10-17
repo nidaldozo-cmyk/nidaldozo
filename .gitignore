@@ -1,0 +1,15 @@
+# Secrets (database and API keys)
+backend/config/config.php
+
+# Server logs (keep the folder, ignore its contents)
+backend/logs/*
+!backend/logs/.gitkeep
+
+# Dependencies
+vendor/
+node_modules/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
