@@ -19,3 +19,14 @@
 - **What was wrong:** Initially advised leaving “Add a README” unchecked on GitHub because files already existed locally, but there was no README.
 - **How it was noticed:** Checked VS Code and saw no README.
 - **How it was fixed:** Created `README.md` manually.
+
+- Log 3: **Tool/model:** Claude (model/version unknown)
+- **Task:** Create an ERD diagram based on a reference image made with diagrams.net.
+- **Main prompt:** “can  you create the diagram with it lookking like this” (with the reference image attached).
+- **Generated:** A diagram in diagrams.net, which was screenshotted and saved as `docs/ERD.png`, as well as another generated version.
+- **Kept/changed/rejected:** Kept the screenshot saved as `docs/ERD.png`; did not use the other generated version.
+
+### Where the AI was wrong
+- **What was wrong:** The other version Claude generated looked messy.
+- **How it was noticed:** Reviewed the generated version.
+- **How it was fixed:** Did not use that version.
