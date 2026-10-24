@@ -1,0 +1,100 @@
+<section class="container py-4 fitpulse-page-appear" aria-labelledby="profile-title">
+  <header class="fitpulse-profile-header mb-4">
+    <div class="fitpulse-profile-avatar" role="img" aria-label="Alex Morgan initials">
+      <span class="fitpulse-profile-avatar-initials" aria-hidden="true">AM</span>
+    </div>
+    <div class="fitpulse-profile-identity">
+      <h1 id="profile-title">Alex Morgan</h1>
+      <div class="d-flex flex-wrap align-items-center gap-2">
+        <span class="badge rounded-pill fitpulse-profile-role">User</span>
+      </div>
+      <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+        <label class="btn btn-sm fitpulse-avatar-change mb-0" for="profile-avatar-input">Change picture</label>
+        <input class="visually-hidden" type="file" id="profile-avatar-input" accept="image/png,image/jpeg,image/webp">
+        <button class="btn btn-sm btn-outline-secondary d-none" type="button" id="profile-avatar-remove">Remove picture</button>
+        <span class="visually-hidden" id="profile-avatar-status" aria-live="polite"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-4">
+      <article class="card h-100 fitpulse-account-card" aria-labelledby="profile-card-title">
+        <div class="card-body">
+          <div class="fitpulse-account-card-heading">
+            <span class="fitpulse-account-card-kicker">YOUR DETAILS</span>
+            <h2 class="h4 card-title mb-0" id="profile-card-title">Account profile</h2>
+          </div>
+          <dl class="fitpulse-account-details mb-4">
+            <div class="fitpulse-account-detail">
+              <dt>Name</dt>
+              <dd>Alex Morgan</dd>
+            </div>
+            <div class="fitpulse-account-detail">
+              <dt>Email address</dt>
+              <dd>alex.morgan@example.com</dd>
+            </div>
+          </dl>
+          <div class="fitpulse-profile-account-meta">
+            <span class="badge rounded-pill fitpulse-profile-role">User account</span>
+            <div class="fitpulse-member-since">
+              <span class="fitpulse-member-since-mark" aria-hidden="true">✓</span>
+              <span>
+                <span class="fitpulse-member-since-label">Member since</span>
+                <strong>2024</strong>
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-lg-8">
+      <section class="card fitpulse-account-card" aria-labelledby="account-settings-title">
+        <div class="card-body">
+          <div class="fitpulse-account-card-heading">
+            <span class="fitpulse-account-card-kicker">PROFILE PREFERENCES</span>
+            <h2 class="h4 card-title mb-0" id="account-settings-title">Account settings</h2>
+          </div>
+          <form>
+            <div class="mb-3">
+              <label for="profile-name" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="profile-name"
+                name="name"
+                value="Alex Morgan"
+                autocomplete="name"
+                required
+              >
+            </div>
+            <div class="mb-3">
+              <label for="profile-email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="profile-email"
+                name="email"
+                value="alex.morgan@example.com"
+                autocomplete="email"
+                required
+              >
+            </div>
+            <div class="mb-4">
+              <label for="profile-new-password" class="form-label">New password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="profile-new-password"
+                name="new-password"
+                autocomplete="new-password"
+              >
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
