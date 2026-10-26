@@ -1,0 +1,150 @@
+<section class="container py-4 fitpulse-page-appear fitpulse-goals-page" aria-labelledby="goals-title">
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <span class="fitpulse-dashboard-eyebrow">SMALL STEPS, BIG RESULTS</span>
+      <h1 class="mb-0 fitpulse-section-title" id="goals-title">Goals</h1>
+    </div>
+    <button
+      type="button"
+      class="btn btn-primary fitpulse-rounded-action"
+      data-bs-toggle="modal"
+      data-bs-target="#new-goal-modal"
+    >
+      New goal
+    </button>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-12 col-md-6 col-xl-4">
+      <article class="card h-100 fitpulse-dashboard-panel fitpulse-goal-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+            <h2 class="h5 card-title mb-0">Weekly workouts</h2>
+            <span class="badge text-bg-secondary">Consistency</span>
+          </div>
+          <p class="mb-2"><strong>Target:</strong> 5 workouts</p>
+          <p class="text-body-secondary mb-3"><strong>Deadline:</strong> Nov 30, 2026</p>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Progress</span>
+            <span>4 of 5</span>
+          </div>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Weekly workouts goal progress"
+            aria-valuenow="80"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar" style="width: 80%">80%</div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+      <article class="card h-100 fitpulse-dashboard-panel fitpulse-goal-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+            <h2 class="h5 card-title mb-0">Monthly workout hours</h2>
+            <span class="badge text-bg-secondary">Duration</span>
+          </div>
+          <p class="mb-2"><strong>Target:</strong> 20 hours</p>
+          <p class="text-body-secondary mb-3"><strong>Deadline:</strong> Dec 31, 2026</p>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Progress</span>
+            <span>12 of 20 hours</span>
+          </div>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Monthly workout hours goal progress"
+            aria-valuenow="60"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar" style="width: 60%">60%</div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+      <article class="card h-100 fitpulse-dashboard-panel fitpulse-goal-card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+            <h2 class="h5 card-title mb-0">Bench press strength</h2>
+            <span class="badge text-bg-secondary">Strength</span>
+          </div>
+          <p class="mb-2"><strong>Target:</strong> 60 kg</p>
+          <p class="text-body-secondary mb-3"><strong>Deadline:</strong> Jan 31, 2027</p>
+          <div class="d-flex justify-content-between mb-2">
+            <span>Progress</span>
+            <span>45 of 60 kg</span>
+          </div>
+          <div
+            class="progress"
+            role="progressbar"
+            aria-label="Bench press strength goal progress"
+            aria-valuenow="75"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div class="progress-bar" style="width: 75%">75%</div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div
+  class="modal fade"
+  id="new-goal-modal"
+  tabindex="-1"
+  aria-labelledby="new-goal-modal-title"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form>
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="new-goal-modal-title">New goal</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="goal-type" class="form-label">Goal type</label>
+            <select class="form-select" id="goal-type" name="type" required>
+              <option value="">Choose a goal type</option>
+              <option value="consistency">Consistency</option>
+              <option value="duration">Workout duration</option>
+              <option value="strength">Strength</option>
+              <option value="weight">Weight</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="goal-target" class="form-label">Target value</label>
+            <input
+              type="number"
+              class="form-control"
+              id="goal-target"
+              name="target"
+              min="1"
+              step="any"
+              required
+            >
+          </div>
+          <div>
+            <label for="goal-deadline" class="form-label">Deadline</label>
+            <input type="date" class="form-control" id="goal-deadline" name="deadline" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Create goal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
