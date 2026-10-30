@@ -186,3 +186,21 @@ Validation recorded
 This document describes the work at a high level for the AI log. It is not a
 claim that every form has a connected backend operation, nor a substitute for
 the code itself.
+
+## Milestone 2
+
+### Tools and tasks
+- Log 6: **Tool/model:** Claude for the prompt; Copilot for code generation (models unspecified).
+- **Task:** Create the FitPulse MySQL database schema.
+- **Main prompt:** “Step 1: The schema
+
+Save this as `backend/database/fitpulse.sql`. I made these design choices, so change anything you disagree with:
+
+- `goals` has an optional `exercise_id`, so goals like “bench press 80 kg” are possible.
+- `ON DELETE CASCADE` on children, so deleting a user or workout removes their rows. The exception is `workout_logs.exercise_id`, which is `RESTRICT` so an exercise in use can’t be deleted.
+- `current_value` was added to `goals` so the progress bars have data.”
+- **Generated:** Added MySQL DDL for the five FitPulse tables, including primary and foreign keys, indexes, requested deletion behavior, and goal progress fields.
+- **Kept/changed/rejected:** Kept the requested optional goal exercise, cascading deletes, restricted deletion for exercises used in workout logs, and `current_value`. Also added standard indexes and unique email enforcement.
+
+### Where the AI was wrong
+- No.
