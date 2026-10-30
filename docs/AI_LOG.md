@@ -202,5 +202,70 @@ Save this as `backend/database/fitpulse.sql`. I made these design choices, so ch
 - **Generated:** Added MySQL DDL for the five FitPulse tables, including primary and foreign keys, indexes, requested deletion behavior, and goal progress fields.
 - **Kept/changed/rejected:** Kept the requested optional goal exercise, cascading deletes, restricted deletion for exercises used in workout logs, and `current_value`. Also added standard indexes and unique email enforcement.
 
+- Log 7: **Tool/model:** Claude for prompts; Copilot for code generation (models unspecified).
+- **Task:** Create a DAO for workout records.
+- **Main prompt:** “now workout doa”
+- **Generated:** Added `WorkoutDao` extending `BaseDao`, with allowed workout columns and prepared-statement methods to list a user's workouts by date and retrieve one workout scoped to its owner.
+- **Kept/changed/rejected:** Kept the shared DAO pattern and schema fields; added owner-scoped queries and descending date ordering.
+
+- Log 8: **Tool/model:** Copilot for code generation; Claude for the correction prompt (models unspecified).
+- **Task:** Create the exercise DAO as a separate file.
+- **Main prompt:** “excersize dao now”; follow-up to Claude: “copilot created this in the same file as base dao”
+- **Generated:** Copilot generated the `ExerciseDao` code in the same file as `BaseDao`.
+- **Kept/changed/rejected:** Requested the DAO in its own file; kept the corrected implementation in `backend/dao/ExerciseDao.php`.
+
+- Log 9: **Tool/model:** Copilot (model unspecified).
+- **Task:** Review and correct inconsistencies between the SQL dump and the rest of the project.
+- **Main prompt:** “check if there are any irregularities between the sql file and other things”; follow-up: “fix any issues”
+- **Generated:** Corrected SQL table-drop ordering and made the exercise-log delete restriction explicit; updated the ERD and README to match the SQL. Verified two consecutive imports in a temporary database and confirmed live data counts were unchanged.
+- **Kept/changed/rejected:** Kept the current sample rows in the SQL dump; documented that import recreates tables and replaces data.
+
+- Log 10: **Tool/model:** Claude (model unspecified) and draw.io.
+- **Task:** Replace the project ERD image with the user-provided diagram.
+- **Main prompt:** “use this image for the erd”
+- **Generated:** Replaced `docs/ERD.png` with the provided ERD image and verified the copied file matches the attachment.
+- **Kept/changed/rejected:** Kept the provided ERD image.
+
+- Log 11: **Tool/model:** Claude for the prompt; Copilot for creation (models unspecified).
+- **Task:** Update the ERD to match the goals schema.
+- **Main prompt:** “Redo the ERD with `goals.exercise_id` and `current_value`. I can do that now, and I’d draw the goals-to-exercises relationship with whichever delete rule you keep.”
+- **Generated:** Updated `docs/ERD.png` to show the nullable `goals.exercise_id`, `current_value`, and the `ON DELETE CASCADE` rule for the goals-to-exercises relationship.
+- **Kept/changed/rejected:** Kept the existing diagram and schema relationship; added an explicit cascade-delete label.
+
+- Log 12: **Tool/model:** Copilot (model unspecified).
+- **Task:** Document Milestone 2 and local setup in the README.
+- **Main prompt:** “lets update the readme file for milestone2, add everything you deem important”
+- **Generated:** Expanded `README.md` with the current milestone status, prerequisites and XAMPP setup, database import warning and configuration, schema relationships and delete behavior, DAO responsibilities, project structure, and next steps. Clarified that the frontend is not yet connected to backend routes or services.
+- **Kept/changed/rejected:** Kept the README updates.
+
+- Log 13: **Tool/model:** Copilot (model unspecified).
+- **Task:** Shorten the Milestone 2 README.
+- **Main prompt:** “the readme is waay too specific, keep it to a minimum”
+- **Generated:** Reduced the README to a brief project description, technology stack, milestone status, local setup steps, database import warning, and ERD link.
+- **Kept/changed/rejected:** Kept the concise revision and removed the overly detailed explanations.
+
+- Log 14: **Tool/model:** Copilot (model unspecified).
+- **Task:** Restore a balanced amount of detail to the Milestone 2 README.
+- **Main prompt:** “cmon man, when i said keep the readme to a minimum, i didnt mean it this short”
+- **Generated:** Revised the README with concise feature and technology summaries, milestone status, local setup steps, the database import warning, and a brief schema overview.
+- **Kept/changed/rejected:** Kept the balanced revision, restoring useful context without the previous implementation-level detail.
+
 ### Where the AI was wrong
-- No.
+- Log 6: No.
+- Log 7: No.
+- Log 8:
+  - **What was wrong:** Copilot put the `ExerciseDao` code in the same file as `BaseDao` instead of creating a separate `ExerciseDao.php`.
+  - **How it was noticed:** The user saw the generated `ExerciseDao` code in the same file as `BaseDao`.
+  - **How it was fixed:** The user told Claude about the issue and requested a separate file; `ExerciseDao.php` is now separate.
+- Log 9: No.
+- Log 10: No.
+- Log 11: No.
+- Log 12: No.
+- Log 13:
+  - **What was wrong:** The previous README was far more detailed than needed.
+  - **How it was noticed:** The user pointed out it was way too detailed and explained more than necessary.
+  - **How it was fixed:** Trimmed the README to the essentials.
+- Log 14:
+  - **What was wrong:** The previous revision was too short and omitted useful project context.
+  - **How it was noticed:** The user clarified that “minimum” did not mean reducing it to such a short README.
+  - **How it was fixed:** Restored brief feature, stack, milestone, and database summaries while keeping the README concise.
