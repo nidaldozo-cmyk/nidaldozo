@@ -1,38 +1,42 @@
 # FitPulse
 
-FitPulse is a web application where users track their daily workouts, search an
-exercise database and set physical goals.
+FitPulse is a workout-tracking web application for recording workouts, browsing
+exercises, and setting fitness goals.
 
-## Roles and entities
+## Features
 
-Roles: user, admin.
+- Workout, exercise, and goal views
+- Exercise database and workout log tracking
+- User and administrator roles
 
-Entities: users, workouts, exercises, workout_logs, goals.
+## Technology
 
-## Database (draft)
+- Frontend: HTML, CSS, JavaScript, jQuery, and Bootstrap 5
+- Backend: PHP and PDO, with a FlightPHP REST API planned
+- Database: MySQL/MariaDB
+- Local development: XAMPP
 
-Relationships (1→N means one-to-many):
+## Milestone 2
 
-- users 1→N workouts
-- users 1→N goals
-- workouts 1→N workout_logs
-- exercises 1→N workout_logs
+The database schema, sample data, and PHP data-access objects (DAOs) are in
+place. The frontend is navigable, but it is not yet connected to backend routes
+or services. Backend API integration and external exercise search are planned.
 
-The diagram is in `docs/ERD.png`.
+## Run locally
 
-## Technology stack
+1. Start Apache and MySQL from the XAMPP Control Panel.
+2. Import [`backend/database/fitpulse.sql`](backend/database/fitpulse.sql)
+   through phpMyAdmin.
+3. Copy `backend/config/config.example.php` to
+   `backend/config/config.php` and enter your local database credentials.
+4. Open `http://localhost/nidaldozo/frontend/`.
 
-- Frontend: HTML, CSS, JavaScript, jQuery, Bootstrap 5, single-page application (SPA)
-- Backend: PHP with FlightPHP (REST API), PDO, MySQL (from Milestone 2)
-- Local server: XAMPP
-- External API: Wger or ExerciseDB for exercise search (planned)
+**Import warning:** The SQL dump drops and recreates the FitPulse tables before
+inserting sample records. Back up any data you want to keep before importing.
 
-## Folder structure
+## Database
 
-- `frontend/`: css, js, views, assets
-- `backend/`: routes, services, dao, middleware, config, logs
-- `docs/`: AI_LOG.md, ERD.png
-
-## Status
-
-Milestone 1: project structure, static SPA frontend and draft ERD.
+The database contains users, workouts, exercises, workout logs, and goals.
+Goals may optionally be linked to an exercise. The schema and sample data are
+in [`backend/database/fitpulse.sql`](backend/database/fitpulse.sql); see the
+[ERD](docs/ERD.png) for the relationships.
