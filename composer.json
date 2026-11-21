@@ -1,0 +1,12 @@
+{
+    "autoload": {
+        "classmap": [
+            "backend/routes",
+            "backend/swagger"
+        ]
+    },
+    "require": {
+        "flightphp/core": "^3.19",
+        "zircote/swagger-php": "^7.8"
+    }
+}

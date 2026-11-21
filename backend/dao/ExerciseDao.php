@@ -34,4 +34,33 @@ class ExerciseDao extends BaseDao
 
         return $stmt->fetchAll();
     }
+
+    public function getByMuscleGroup(string $muscleGroup): array
+    {
+        $stmt = $this->connection->prepare(
+            'SELECT * FROM exercises
+             WHERE muscle_group = :muscle_group
+             ORDER BY name ASC'
+        );
+        $stmt->execute([
+            'muscle_group' => $muscleGroup,
+        ]);
+
+        return $stmt->fetchAll();
+    }
+
+    public function existsByNameAndMuscleGroup(string $name, string $muscleGroup): bool
+    {
+        $stmt = $this->connection->prepare(
+            'SELECT 1 FROM exercises
+             WHERE name = :name AND muscle_group = :muscle_group
+             LIMIT 1'
+        );
+        $stmt->execute([
+            'name' => $name,
+            'muscle_group' => $muscleGroup,
+        ]);
+
+        return $stmt->fetchColumn() !== false;
+    }
 }

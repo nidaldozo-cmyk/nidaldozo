@@ -23,6 +23,7 @@ Roles: admin, user. Entities: users, workouts, exercises, workout_logs, goals.
 - Only services call DAO classes. Routes never call DAO classes directly.
 - All SQL uses PDO prepared statements.
 - Routes return JSON with correct HTTP status codes.
+- Real files under backend/ (such as Swagger/OpenAPI specs) are served directly by Apache; backend/.htaccess rewrites only requests that do not match an existing file.
  
 ## Conventions
 - PHP classes: PascalCase (UserService, UserDao). Files are named after the class.
