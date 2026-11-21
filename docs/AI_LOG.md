@@ -250,6 +250,24 @@ Save this as `backend/database/fitpulse.sql`. I made these design choices, so ch
 - **Generated:** Revised the README with concise feature and technology summaries, milestone status, local setup steps, the database import warning, and a brief schema overview.
 - **Kept/changed/rejected:** Kept the balanced revision, restoring useful context without the previous implementation-level detail.
 
+- Log 15: **Tool/model:** Claude for prompt generation; Copilot for code generation (models unspecified).
+- **Task:** Create and refine backend service classes for users, workouts, exercises, workout logs, and goals using a shared base service.
+- **Main prompt:** “Create backend/services/BaseService.php. It holds a DAO object passed in the constructor and provides: getAll(), getById($id) (throws Exception with code 404 if not found), create($data) (calls validate($data, false), then the DAO insert, then returns the new row), update($id, $data) (404 if missing, calls validate($data, true), DAO update, returns the updated row) and delete($id) (404 if missing). Add a protected validate(array $data, bool $isUpdate) method that does nothing by default so child services override it. Services signal errors by throwing Exception with the HTTP status as the exception code (400 validation, 403 forbidden, 404 not found). Services never touch HTTP, Flight or SQL, and only call DAO methods. Do not change any other file.” Follow-up prompts specified service-specific validation and DAO behavior for each service.
+- **Generated:** `BaseService`, `UserService`, `WorkoutService`, `ExerciseService`, `WorkoutLogService`, and `GoalService` with the requested validation and DAO integration.
+- **Kept/changed/rejected:** Kept the service files in the Services folder.
+
+- Log 16: **Tool/model:** Claude for the prompt; Copilot for generation (models unspecified).
+- **Task:** Add muscle-group filtering to ExerciseService and create ExerciseRoutes.php.
+- **Main prompt:** “Implement FlightPHP routes for all CRUD operations of all entities.”
+- **Generated:** The AI initially did not create the service method or routes, stating that ExerciseService had no muscle_group filter method and the route could not be created without calling a DAO or changing the service.
+- **Kept/changed/rejected:** No generated code was kept. The user created the muscle_group method and then ExerciseRoutes.php.
+
+- Log 17: **Tool/model:** Copilot SDK in VS Code (model unknown).
+- **Task:** Verify successful delete and repeated-delete behavior for exercises, users, workouts, workout logs, and goals.
+- **Main prompt:** “One thing still unchecked: a successful delete returning 200. You can verify it together with the other entities. Create a row, delete it, and see 200, then repeat the delete and see 404. For exercises, a quick way is: POST /exercises with a valid body (use body.json), then DELETE that id twice. Do the same for users, workouts, workout logs and goals, then commit and push when all five pass.”
+- **Generated:** Fixed the Flight error handler to send staged JSON responses and ran temporary create/delete/repeated-delete API checks for all five entities.
+- **Kept/changed/rejected:** Kept the error-handler fix. Removed the temporary test records and `body.json` after testing.
+
 ### Where the AI was wrong
 - Log 6: No.
 - Log 7: No.
@@ -269,3 +287,15 @@ Save this as `backend/database/fitpulse.sql`. I made these design choices, so ch
   - **What was wrong:** The previous revision was too short and omitted useful project context.
   - **How it was noticed:** The user clarified that “minimum” did not mean reducing it to such a short README.
   - **How it was fixed:** Restored brief feature, stack, milestone, and database summaries while keeping the README concise.
+- Log 15:
+  - **What was wrong:** Claude mentioned BaseService but did not provide a concrete prompt for it.
+  - **How it was noticed:** BaseService was only mentioned, with no concrete prompt provided.
+  - **How it was fixed:** Asked Claude to generate a prompt for BaseService.
+- Log 16:
+  - **What was wrong:** The AI did not want to create ExerciseService immediately.
+  - **How it was noticed:** It did not create the requested service method or routes.
+  - **How it was fixed:** The user created the muscle_group method and then ExerciseRoutes.php.
+- Log 17:
+  - **What was wrong:** An initial test falsely marked the goal update as failed because it compared the database decimal string `"60.00"` directly with a number.
+  - **How it was noticed:** A follow-up check showed the string-valued response and confirmed the update succeeded with numeric comparison.
+  - **How it was fixed:** Compared the returned decimal numerically; the goal update passed.

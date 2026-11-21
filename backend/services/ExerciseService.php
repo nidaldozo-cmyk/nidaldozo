@@ -57,6 +57,15 @@ class ExerciseService extends BaseService
         }
     }
 
+    public function getByMuscleGroup(string $muscleGroup): array
+    {
+        if (trim($muscleGroup) === '') {
+            throw new Exception('Muscle group is required.', 400);
+        }
+
+        return $this->exerciseDao->getByMuscleGroup($muscleGroup);
+    }
+
     protected function validate(array $data, bool $isUpdate): void
     {
         foreach (['name' => 150, 'muscle_group' => 100] as $field => $maxLength) {

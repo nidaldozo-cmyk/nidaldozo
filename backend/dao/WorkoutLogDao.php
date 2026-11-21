@@ -31,4 +31,14 @@ class WorkoutLogDao extends BaseDao
 
         return $stmt->fetchAll();
     }
+
+    public function hasExerciseLogs(int $exerciseId): bool
+    {
+        $stmt = $this->connection->prepare(
+            'SELECT 1 FROM workout_logs WHERE exercise_id = :exercise_id LIMIT 1'
+        );
+        $stmt->execute(['exercise_id' => $exerciseId]);
+
+        return $stmt->fetchColumn() !== false;
+    }
 }
