@@ -14,10 +14,11 @@ require_once __DIR__ . '/services/BaseService.php';
 require_once __DIR__ . '/services/UserService.php';
 require_once __DIR__ . '/services/WorkoutService.php';
 require_once __DIR__ . '/services/ExerciseService.php';
+require_once __DIR__ . '/services/ExternalExerciseService.php';
 require_once __DIR__ . '/services/WorkoutLogService.php';
 require_once __DIR__ . '/services/GoalService.php';
 
-foreach (['UserRoutes.php', 'WorkoutRoutes.php', 'ExerciseRoutes.php', 'WorkoutLogRoutes.php', 'GoalRoutes.php'] as $routeFile) {
+foreach (['UserRoutes.php', 'WorkoutRoutes.php', 'ExerciseRoutes.php', 'ExternalExerciseRoutes.php', 'WorkoutLogRoutes.php', 'GoalRoutes.php'] as $routeFile) {
     $routePath = __DIR__ . '/routes/' . $routeFile;
     if (is_file($routePath)) {
         require_once $routePath;
