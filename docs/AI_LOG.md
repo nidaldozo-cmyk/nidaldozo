@@ -320,6 +320,15 @@ Save this as `backend/database/fitpulse.sql`. I made these design choices, so ch
 - **Generated:** Added the two classmap paths to root composer.json, ran composer dump-autoload, and generated backend/swagger/openapi.json with all 33 operations, 13 paths, and 11 component schemas.
 - **Kept/changed/rejected:** The changes were kept.
 
+- Log 22: **Tool/model:** Copilot SDK in VS Code (gpt-6-luna).
+- **Task:** Record issues resolved while implementing Tasks 3 & 4: external exercise search and OpenAPI documentation.
+- **Main prompt:** “Add a short section for Task 3 & Task 4 documenting the real issues you hit and resolved.”
+- **Generated:** Documented three integration issues and their resolutions:
+  - The deprecated `/api/v2/exercise/search/` endpoint returned `{"detail":"Not found."}`. The current schema identified `/api/v2/exerciseinfo/?name__search=...&language__code=en` as the active endpoint.
+  - Despite `language__code=en`, `translations[0]` could be German (`"Bankdrücken LH"`); `ExternalExerciseService` selects the translation with `language === 2` for the English name.
+  - `php vendor/bin/openapi` failed from `backend/` because Composer's `vendor/` is at the project root; the Windows binary is `..\vendor\bin\openapi.bat`.
+- **Kept/changed/rejected:** Kept the three issue and resolution notes supplied for Tasks 3 & 4.
+
 ### Where the AI was wrong
 - Log 16:
   - **What was wrong:** The AI initially did not implement the requested service method.
@@ -336,3 +345,4 @@ Save this as `backend/database/fitpulse.sql`. I made these design choices, so ch
   - **What was wrong:** The initial swagger-php scan could not find OpenApiSpec because backend/routes and backend/swagger were not in Composer's classmap.
   - **How it was noticed:** The generator skipped OpenApiSpec and emitted an incomplete document.
   - **How it was fixed:** Added both directories to Composer's classmap, regenerated the autoloader, and reran the standard generator command successfully.
+- Log 22: No.

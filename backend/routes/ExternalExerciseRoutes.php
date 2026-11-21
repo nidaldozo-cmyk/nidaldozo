@@ -74,4 +74,5 @@ final class ExternalExerciseRouteDocumentation
     public function searchExternalExercises(): void
     {
     }
+
 }

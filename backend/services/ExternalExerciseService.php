@@ -82,4 +82,5 @@ class ExternalExerciseService
 
         return $exercises;
     }
+
 }
