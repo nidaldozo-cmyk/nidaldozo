@@ -1,0 +1,5 @@
+name: FitPulse Local
+values:
+  - key: base_url
+    value: 'http://localhost/nidaldozo/backend'
+    enabled: true

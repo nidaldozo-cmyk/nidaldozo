@@ -7,4 +7,10 @@ return [
     'dbname'   => 'fitpulse',
     'user'     => 'your_db_user',
     'password' => 'your_db_password',
+    'external_api' => [
+        'base_url'        => 'https://wger.de/api/v2',
+        'api_key'         => '',
+        'connect_timeout' => 3,
+        'timeout'         => 8,
+    ],
 ];

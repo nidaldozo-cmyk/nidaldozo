@@ -250,6 +250,12 @@ Save this as `backend/database/fitpulse.sql`. I made these design choices, so ch
 - **Generated:** Revised the README with concise feature and technology summaries, milestone status, local setup steps, the database import warning, and a brief schema overview.
 - **Kept/changed/rejected:** Kept the balanced revision, restoring useful context without the previous implementation-level detail.
 
+- Log 15: **Tool/model:** Claude for prompt generation; Copilot for code generation (models unspecified).
+- **Task:** Create and refine backend service classes for users, workouts, exercises, workout logs, and goals using a shared base service.
+- **Main prompt:** “Create backend/services/BaseService.php. It holds a DAO object passed in the constructor and provides: getAll(), getById($id) (throws Exception with code 404 if not found), create($data) (calls validate($data, false), then the DAO insert, then returns the new row), update($id, $data) (404 if missing, calls validate($data, true), DAO update, returns the updated row) and delete($id) (404 if missing). Add a protected validate(array $data, bool $isUpdate) method that does nothing by default so child services override it. Services signal errors by throwing Exception with the HTTP status as the exception code (400 validation, 403 forbidden, 404 not found). Services never touch HTTP, Flight or SQL, and only call DAO methods. Do not change any other file.” Follow-up prompts specified service-specific validation and DAO behavior for each service.
+- **Generated:** `BaseService`, `UserService`, `WorkoutService`, `ExerciseService`, `WorkoutLogService`, and `GoalService` with the requested validation and DAO integration.
+- **Kept/changed/rejected:** Kept the service files in the Services folder.
+
 ### Where the AI was wrong
 - Log 6: No.
 - Log 7: No.
@@ -269,3 +275,74 @@ Save this as `backend/database/fitpulse.sql`. I made these design choices, so ch
   - **What was wrong:** The previous revision was too short and omitted useful project context.
   - **How it was noticed:** The user clarified that “minimum” did not mean reducing it to such a short README.
   - **How it was fixed:** Restored brief feature, stack, milestone, and database summaries while keeping the README concise.
+- Log 15:
+  - **What was wrong:** Claude mentioned BaseService but did not provide a concrete prompt for it.
+  - **How it was noticed:** BaseService was only mentioned, with no concrete prompt provided.
+  - **How it was fixed:** Asked Claude to generate a prompt for BaseService.
+
+## Milestone 3
+
+### Tools and tasks
+
+- Log 16: **Tool/model:** Claude for the prompt; Copilot for generation (models unspecified).
+- **Task:** Add muscle-group filtering to ExerciseService and create ExerciseRoutes.php.
+- **Main prompt:** “Implement FlightPHP routes for all CRUD operations of all entities.”
+- **Generated:** The AI initially did not create the service method or routes, stating that ExerciseService had no muscle_group filter method and the route could not be created without calling a DAO or changing the service.
+- **Kept/changed/rejected:** No generated code was kept. The user created the muscle_group method and then ExerciseRoutes.php.
+
+- Log 17: **Tool/model:** Copilot SDK in VS Code (model unknown).
+- **Task:** Verify successful delete and repeated-delete behavior for exercises, users, workouts, workout logs, and goals.
+- **Main prompt:** “One thing still unchecked: a successful delete returning 200. You can verify it together with the other entities. Create a row, delete it, and see 200, then repeat the delete and see 404. For exercises, a quick way is: POST /exercises with a valid body (use body.json), then DELETE that id twice. Do the same for users, workouts, workout logs and goals, then commit and push when all five pass.”
+- **Generated:** Fixed the Flight error handler to send staged JSON responses and ran temporary create/delete/repeated-delete API checks for all five entities.
+- **Kept/changed/rejected:** Kept the error-handler fix. Removed the temporary test records and `body.json` after testing.
+
+- Log 18: **Tool/model:** Copilot SDK in VS Code (model unknown).
+- **Task:** Add the missing ExerciseDao method for muscle-group filtering.
+- **Main prompt:** “In backend/dao/ExerciseDao.php, add a public method getByMuscleGroup(string $muscleGroup): array that returns all exercises with that muscle_group, ordered by name, using a prepared statement with a named parameter and $this->connection like the other DAO methods. Do not change any other file.”
+- **Generated:** Added getByMuscleGroup using a named PDO parameter and ordering by name.
+- **Kept/changed/rejected:** Kept the method in ExerciseDao.php; no other file was changed for that request.
+
+- Log 19: **Tool/model:** Copilot SDK in VS Code (model unknown).
+- **Task:** Fix exception responses that returned an empty HTTP 200.
+- **Main prompt:** “Evidence: GET /exercises works (200 JSON), an unknown URL returns a JSON 404 from the not-found handler, but GET /exercises/999 (ExerciseService::getById throws Exception with code 404) returns HTTP 200 with an empty body and Content-Type text/html. So exceptions thrown inside route callbacks are not reaching the error handler or the handler sends no body. Find the cause in backend/index.php and the route files, fix it so the exception becomes a JSON error response with the exception code as the status (400-599, otherwise 500), and tell me what the cause was. Do not change services or DAOs.”
+- **Generated:** Identified that Flight::json staged the error body but the exception path skipped the normal response-send lifecycle; added Flight::response()->send() after setting the JSON error response.
+- **Kept/changed/rejected:** Kept the central error-handler fix; route, service, and DAO code was otherwise unchanged for this fix.
+
+- Log 20: **Tool/model:** Copilot SDK in VS Code (model unknown).
+- **Task:** Document Apache direct serving for Swagger/OpenAPI files.
+- **Main prompt:** “add it to AGENTS.md. Real files in that folder are served directly, since .htaccess only rewrites URLs that don't exist as files. this is for swagger”
+- **Generated:** Added a Backend rules bullet to AGENTS.md explaining that Apache serves existing backend files directly and backend/.htaccess rewrites only requests that do not match an existing file.
+- **Kept/changed/rejected:** The documentation change was kept.
+
+- Log 21: **Tool/model:** Copilot SDK in VS Code (model unknown).
+- **Task:** Configure Composer classmap autoloading for the route and Swagger folders, then generate openapi.json.
+- **Main prompt:** “Fix: tell Composer about those two folders. Add an autoload classmap for backend/routes and backend/swagger, regenerate the autoloader, then run the swagger-php generator from backend to write swagger/openapi.json.”
+- **Generated:** Added the two classmap paths to root composer.json, ran composer dump-autoload, and generated backend/swagger/openapi.json with all 33 operations, 13 paths, and 11 component schemas.
+- **Kept/changed/rejected:** The changes were kept.
+
+- Log 22: **Tool/model:** Copilot SDK in VS Code (gpt-6-luna).
+- **Task:** Record issues resolved while implementing Tasks 3 & 4: external exercise search and OpenAPI documentation.
+- **Main prompt:** “Add a short section for Task 3 & Task 4 documenting the real issues you hit and resolved.”
+- **Generated:** Documented three integration issues and their resolutions:
+  - The deprecated `/api/v2/exercise/search/` endpoint returned `{"detail":"Not found."}`. The current schema identified `/api/v2/exerciseinfo/?name__search=...&language__code=en` as the active endpoint.
+  - Despite `language__code=en`, `translations[0]` could be German (`"Bankdrücken LH"`); `ExternalExerciseService` selects the translation with `language === 2` for the English name.
+  - `php vendor/bin/openapi` failed from `backend/` because Composer's `vendor/` is at the project root; the Windows binary is `..\vendor\bin\openapi.bat`.
+- **Kept/changed/rejected:** Kept the three issue and resolution notes supplied for Tasks 3 & 4.
+
+### Where the AI was wrong
+- Log 16:
+  - **What was wrong:** The AI initially did not implement the requested service method.
+  - **How it was noticed:** The route request could not be completed because ExerciseService lacked getByMuscleGroup.
+  - **How it was fixed:** The missing service method was added, then ExerciseRoutes.php was created.
+- Log 17:
+  - **What was wrong:** An initial test falsely marked the goal update as failed because it compared the database decimal string `"60.00"` directly with a number.
+  - **How it was noticed:** A follow-up check showed the string-valued response and confirmed the update succeeded with numeric comparison.
+  - **How it was fixed:** Compared the returned decimal numerically; the goal update passed.
+- Log 18: No.
+- Log 19: No.
+- Log 20: No.
+- Log 21:
+  - **What was wrong:** The initial swagger-php scan could not find OpenApiSpec because backend/routes and backend/swagger were not in Composer's classmap.
+  - **How it was noticed:** The generator skipped OpenApiSpec and emitted an incomplete document.
+  - **How it was fixed:** Added both directories to Composer's classmap, regenerated the autoloader, and reran the standard generator command successfully.
+- Log 22: No.
